@@ -3,14 +3,23 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/toaster"
+import Footer from "@/components/Footer"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const geistSans = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+})
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+})
 
 export const metadata: Metadata = {
   title: "AyurCare - Ayurvedic Healthcare Platform",
-  description: "Connecting patients with Ayurvedic practitioners through AI-powered symptom analysis",
+  description:
+    "Connecting patients with Ayurvedic practitioners through AI-powered symptom analysis",
   generator: "v0.app",
   icons: {
     icon: [
@@ -38,8 +47,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+      >
         {children}
+
+        {/* Global Footer */}
+        <Footer />
+
+        {/* Global UI */}
         <Toaster />
         <Analytics />
       </body>

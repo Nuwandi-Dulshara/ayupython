@@ -2,11 +2,21 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Activity, Users, Stethoscope, UserCircle, GraduationCap } from "lucide-react"
-import Link from "next/link"
+import Link from "next/link";
+import { ArrowRight } from "lucide-react"
+import { Leaf, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+
+
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-accent/10">
+    <div
+      className="min-h-screen"
+      style={{
+        background: "linear-gradient(135deg,#002147 0%, #3fb1ff 35%, #6DBE45 70%, #145214 100%)",
+        color: "white",
+      }}
+    >
       {/* Header */}
       <header className="border-b border-border/50 bg-card/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -19,7 +29,7 @@ export default function LandingPage() {
           <Link href="/login">
             <Button
               variant="outline"
-              className="hover:bg-primary hover:text-primary-foreground transition-all duration-300 bg-transparent"
+              className="hover:bg-primary hover:text-primary-foreground transition-all duration-300 bg-white text-black"
             >
               Login
             </Button>
@@ -28,37 +38,53 @@ export default function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center animate-fadeIn">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <h2 className="text-5xl md:text-6xl font-bold text-balance text-foreground">
-            Connecting Patients with
-            <span className="text-primary"> Ayurvedic Wisdom</span>
-          </h2>
-          <p className="text-xl text-muted-foreground text-pretty leading-relaxed max-w-2xl mx-auto">
-            AI-powered symptom analysis meets traditional Ayurvedic healthcare. Find the right practitioner for your
-            healing journey.
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center pt-6">
-            <Link href="/register">
-              <Button
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 animate-pulse-slow"
-              >
-                Get Started
+      <section
+        className="relative min-h-[90vh] flex items-center"
+        style={{
+          backgroundImage: "url('/images/hero-cover.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        {/* Overlay with blur */}
+        <div className="absolute inset-0 bg-gradient-to-t from-secondary/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-secondary/95 via-secondary/80 to-secondary/40" />
+
+
+        {/* Content */}
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-2xl space-y-6 text-left">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white">
+              Ancient Wisdom
+              <span className="text-[#6DBE45]"> Modern Care</span>
+            </h1>
+
+            <p className="text-lg md:text-xl text-white/90 leading-relaxed">
+              Experience personalized Ayurvedic treatment with AI-powered symptom analysis.
+              Connect with certified practitioners and embrace holistic healing tailored
+              to your unique constitution.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Link href="/register">
+              <Button variant="hero" size="xl" className="group animate-fadeInUp">
+                Start Your Healing Journey
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
               </Button>
-            </Link>
-            <Link href="#features">
-              <Button
-                size="lg"
-                variant="outline"
-                className="hover:bg-accent hover:text-accent-foreground transition-all duration-300 bg-transparent"
-              >
-                Learn More
-              </Button>
-            </Link>
+
+
+              </Link>
+
+              <Link href="#features">
+                <Button variant="outline" size="xl" className="border-white text-black hover:bg-black hover:text-white">
+                  Learn More
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
 
       {/* Features Section */}
       <section id="features" className="container mx-auto px-4 py-20">
@@ -147,7 +173,7 @@ export default function LandingPage() {
               className="flex gap-6 items-start animate-fadeIn"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg flex-shrink-0">
+              <div className="w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-lg">
                 {item.step}
               </div>
               <div>
@@ -160,11 +186,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 bg-card/80 backdrop-blur-sm mt-20">
-        <div className="container mx-auto px-4 py-8 text-center text-muted-foreground">
-          <p>&copy; 2025 AyurCare. Bridging traditional wisdom with modern technology.</p>
-        </div>
-      </footer>
+
     </div>
   )
 }

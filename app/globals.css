@@ -161,3 +161,28 @@
 .animate-pulse-slow {
   animation: pulse-slow 2s ease-in-out infinite;
 }
+
+@keyframes floatY {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes floatX {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(8px); }
+  100% { transform: translateX(0px); }
+}
+
+@keyframes slow-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.float-y { animation: floatY 4s ease-in-out infinite; }
+.float-x { animation: floatX 3.6s ease-in-out infinite; }
+.slow-rotate { animation: slow-rotate 12s linear infinite; }
+
+.ai-robot svg { width: 220px; height: auto; }
+.ayurveda-image svg { width: 260px; height: auto; }
+
