@@ -4,10 +4,6 @@ import { Card } from "@/components/ui/card"
 import { Activity, Users, Stethoscope, UserCircle, GraduationCap } from "lucide-react"
 import Link from "next/link";
 import { ArrowRight } from "lucide-react"
-import { Leaf, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
-
-
-
 export default function LandingPage() {
   return (
     <div
@@ -184,8 +180,6 @@ export default function LandingPage() {
           ))}
         </div>
       </section>
-
-      {/* Footer */}
 
     </div>
   )
