@@ -69,23 +69,6 @@ export default function LoginPage() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="role">Login As</Label>
-              <select
-                id="role"
-                required
-                className="w-full px-3 py-2 border border-input bg-background rounded-md"
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              >
-                <option value="">Select Role</option>
-                <option value="patient">Patient</option>
-                <option value="doctor">Doctor</option>
-                <option value="researcher">Researcher</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-
             <Button type="submit" className="w-full bg-primary hover:bg-primary/90" size="lg">
               Login
             </Button>

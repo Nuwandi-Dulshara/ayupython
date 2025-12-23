@@ -137,6 +137,16 @@ export default function AdminRegister() {
             >
               Complete Registration
             </Button>
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-primary font-medium hover:underline"
+              >
+                Login
+              </Link>
+            </p>
+
           </form>
         </Card>
       </div>

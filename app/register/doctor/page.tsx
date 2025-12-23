@@ -232,6 +232,16 @@ export default function DoctorRegister() {
             <Button type="submit" className="w-full bg-success hover:bg-success/90 text-success-foreground" size="lg">
               Complete Registration
             </Button>
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-primary font-medium hover:underline"
+              >
+                Login
+              </Link>
+            </p>
+
           </form>
         </Card>
       </div>

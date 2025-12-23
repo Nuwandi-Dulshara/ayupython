@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -13,9 +12,39 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 
+/* ============================
+   AI Registration Assistant Tips
+============================ */
+const aiTips: Record<string, string> = {
+  welcome: "Hi 👋 I’ll help you complete this registration. Let’s start with your full name.",
+  fullName: "👉 Enter your full name exactly as shown on your NIC or ID card.",
+  email: "👉 Enter a valid email address. We use this to send appointment updates.",
+  password: "👉 Choose a strong password to protect your health information.",
+  phone: "👉 Enter a phone number the doctor can contact you on.",
+  dateOfBirth: "👉 Select your date of birth. This helps us understand your health stage.",
+  gender: "👉 Select your gender for accurate Ayurvedic analysis.",
+  address: "👉 Enter your home address for medical records.",
+  medicalHistory:
+    "👉 Mention past illnesses, surgeries, diabetes, asthma, etc. If none, you can leave it empty.",
+  allergies:
+    "👉 List food, medicine, or skin allergies. Leave blank if you don’t have any.",
+  currentMedications:
+    "👉 Mention medicines you are currently taking. Leave blank if none.",
+}
+
 export default function PatientRegister() {
   const router = useRouter()
   const { toast } = useToast()
+
+  /* ============================
+     AI Assistant State
+  ============================ */
+  const [aiMessage, setAiMessage] = useState(aiTips.welcome)
+  const [aiOpen, setAiOpen] = useState(true)
+
+  /* ============================
+     Form State
+  ============================ */
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -29,27 +58,45 @@ export default function PatientRegister() {
     currentMedications: "",
   })
 
+  /* ============================
+     🔊 Voice (Text-to-Speech)
+  ============================ */
+  const speak = (text: string) => {
+    speechSynthesis.cancel()
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = "en-US" // later: si-LK / ta-IN
+    utterance.rate = 0.9
+    speechSynthesis.speak(utterance)
+  }
+
+  /* ============================
+     Submit
+  ============================ */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Store in localStorage for demo
+
     localStorage.setItem("userRole", "patient")
     localStorage.setItem("userData", JSON.stringify(formData))
+
     toast({
       title: "Registration Successful",
-      description: "Welcome! Redirecting to your dashboard...",
+      description: "Account created successfully. Please login to continue.",
     })
-    setTimeout(() => router.push("/dashboard/patient"), 1500)
+
+    setTimeout(() => router.push("/login"), 1500)
   }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-accent/10">
-      <header className="border-b border-border/50 bg-card/80 backdrop-blur-sm">
+      {/* Header */}
+      <header className="border-b bg-card/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
               <Activity className="w-6 h-6 text-primary-foreground" />
             </div>
-            <h1 className="text-2xl font-bold text-foreground">AyurCare</h1>
+            <h1 className="text-2xl font-bold">AyurCare</h1>
           </Link>
           <Link href="/register">
             <Button variant="ghost" size="sm" className="gap-2">
@@ -60,76 +107,86 @@ export default function PatientRegister() {
         </div>
       </header>
 
+      {/* Form */}
       <div className="container mx-auto px-4 py-12">
-        <Card className="max-w-2xl mx-auto p-8 animate-fadeIn">
-          <h2 className="text-3xl font-bold mb-6 text-card-foreground">Patient Registration</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name *</Label>
-              <Input
-                id="fullName"
-                required
-                value={formData.fullName}
-                onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-              />
-            </div>
+        <Card className="max-w-2xl mx-auto p-8">
+          <h2 className="text-3xl font-bold mb-6">Patient Registration</h2>
 
-            <div className="grid md:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-2">
+          <div className="space-y-2">
+            <Label>Full Name *</Label>
+            <Input
+              required
+              onFocus={() => {
+                setAiMessage(aiTips.fullName)
+                speak(aiTips.fullName)
+              }}
+              value={formData.fullName}
+              onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+            />
+          </div>
+
+
+            <div className="grid md:grid-cols-2 gap-4 space-y-2">
               <div className="space-y-2">
-                <Label htmlFor="email">Email *</Label>
+                <Label>Email *</Label>
                 <Input
-                  id="email"
                   type="email"
                   required
+                  onFocus={() => setAiMessage(aiTips.email)}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="password">Password *</Label>
+                <Label>Password *</Label>
                 <Input
-                  id="password"
                   type="password"
                   required
+                  onFocus={() => setAiMessage(aiTips.password)}
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4 space-y-2">
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number *</Label>
+                <Label>Phone *</Label>
                 <Input
-                  id="phone"
                   type="tel"
                   required
+                  onFocus={() => setAiMessage(aiTips.phone)}
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 />
               </div>
+
               <div className="space-y-2">
-                <Label htmlFor="dateOfBirth">Date of Birth *</Label>
+                <Label>Date of Birth *</Label>
                 <Input
-                  id="dateOfBirth"
                   type="date"
                   required
+                  onFocus={() => setAiMessage(aiTips.dateOfBirth)}
                   value={formData.dateOfBirth}
-                  onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, dateOfBirth: e.target.value })
+                  }
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="gender">Gender *</Label>
+              <Label>Gender *</Label>
               <select
-                id="gender"
                 required
-                className="w-full px-3 py-2 border border-input bg-background rounded-md"
+                onFocus={() => setAiMessage(aiTips.gender)}
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                className="w-full px-3 py-2 border rounded-md"
               >
-                <option value="">Select Gender</option>
+                <option value="">Select gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
@@ -137,51 +194,104 @@ export default function PatientRegister() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="address">Address *</Label>
+              <Label>Address *</Label>
               <Textarea
-                id="address"
                 required
+                onFocus={() => setAiMessage(aiTips.address)}
                 value={formData.address}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="medicalHistory">Medical History</Label>
+              <Label>Medical History</Label>
               <Textarea
-                id="medicalHistory"
-                placeholder="Previous conditions, surgeries, etc."
+                onFocus={() => setAiMessage(aiTips.medicalHistory)}
                 value={formData.medicalHistory}
-                onChange={(e) => setFormData({ ...formData, medicalHistory: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, medicalHistory: e.target.value })
+                }
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="allergies">Known Allergies</Label>
+              <Label>Known Allergies</Label>
               <Input
-                id="allergies"
-                placeholder="List any allergies"
+                onFocus={() => setAiMessage(aiTips.allergies)}
                 value={formData.allergies}
                 onChange={(e) => setFormData({ ...formData, allergies: e.target.value })}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="currentMedications">Current Medications</Label>
+              <Label>Current Medications</Label>
               <Textarea
-                id="currentMedications"
-                placeholder="List current medications"
+                onFocus={() => setAiMessage(aiTips.currentMedications)}
                 value={formData.currentMedications}
-                onChange={(e) => setFormData({ ...formData, currentMedications: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, currentMedications: e.target.value })
+                }
               />
             </div>
 
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90" size="lg">
+            <Button type="submit" className="w-full" size="lg">
               Complete Registration
             </Button>
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-primary font-medium hover:underline"
+              >
+                Login
+              </Link>
+            </p>
           </form>
         </Card>
       </div>
+
+      {/* 🤖 AI Assistant Panel */}
+      {aiOpen && (
+        <div className="fixed bottom-6 right-6 w-80 bg-card border rounded-xl shadow-xl p-4">
+          <div className="flex justify-between mb-2">
+            <h4 className="font-semibold text-primary">🤖 AI Assistant</h4>
+            <button onClick={() => setAiOpen(false)}>✕</button>
+          </div>
+
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {aiMessage}
+          </p>
+
+          <div className="mt-3 flex gap-2">
+            <button
+              className="flex-1 text-xs bg-primary text-white py-2 rounded"
+              onClick={() =>
+                setAiMessage(
+                  "You can click any field in the form and I will explain what to enter 😊"
+                )
+              }
+            >
+              Ask AI
+            </button>
+
+            <button
+              className="w-10 border rounded"
+              onClick={() => speak(aiMessage)}
+              title="Listen"
+            >
+              🔊
+            </button>
+          </div>
+
+          <button
+            className="mt-2 text-xs underline text-primary"
+            onClick={() => setAiMessage(aiTips.welcome)}
+          >
+            Restart help
+          </button>
+        </div>
+      )}
     </div>
   )
 }
+

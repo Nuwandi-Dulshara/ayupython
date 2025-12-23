@@ -45,6 +45,11 @@ export default function ResearcherRegister() {
             </div>
             <h1 className="text-2xl font-bold text-foreground">AyurCare</h1>
           </Link>
+    <Link href="/register">
+      <Button variant="ghost" size="sm" className="gap-2">
+        ← Back
+      </Button>
+    </Link>
         </div>
       </header>
 
@@ -176,6 +181,16 @@ export default function ResearcherRegister() {
             <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground" size="lg">
               Complete Registration
             </Button>
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              Already have an account?{" "}
+              <Link
+                href="/login"
+                className="text-primary font-medium hover:underline"
+              >
+                Login
+              </Link>
+            </p>
+
           </form>
         </Card>
       </div>
