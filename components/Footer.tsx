@@ -1,6 +1,16 @@
 "use client"
 
-import { Leaf, Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react"
+import {
+  Activity,
+  Mail,
+  Phone,
+  MapPin,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Instagram,
+} from "lucide-react"
+
 
 export default function Footer() {
   return (
@@ -12,7 +22,7 @@ export default function Footer() {
           <div className="space-y-4">
             <a href="/" className="flex items-center gap-2">
               <div className="w-10 h-10 rounded-xl bg-gradient-nature flex items-center justify-center">
-                <Leaf className="w-6 h-6 text-primary-foreground" />
+                <Activity className="w-6 h-6 text-primary-foreground" />
               </div>
               <span className="font-display text-xl font-semibold">
                 Ayur<span className="text-primary-glow">Care</span>

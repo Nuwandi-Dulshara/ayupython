@@ -186,3 +186,18 @@
 .ai-robot svg { width: 220px; height: auto; }
 .ayurveda-image svg { width: 260px; height: auto; }
 
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes floatX {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(12px); }
+}
+
+.animate-float-y {
+  animation: floatY 6s ease-in-out infinite;
+}
+.animate-float-x {
+  animation: floatX 7s ease-in-out infinite;
+}
